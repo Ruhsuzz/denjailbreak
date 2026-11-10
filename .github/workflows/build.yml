@@ -12,7 +12,7 @@ jobs:
       - name: Prepare project
         run: |
           mkdir -p HackPrank/Assets.xcassets/AppIcon.appiconset HackPrank/Assets.xcassets/Logo.imageset
-          mv ContentView.swift HackPrankApp.swift HackPrank/
+          mv *.swift HackPrank/
           cp icon.png HackPrank/Assets.xcassets/AppIcon.appiconset/icon.png
           cp logo.png HackPrank/Assets.xcassets/Logo.imageset/logo.png
           echo '{ "info" : { "author" : "xcode", "version" : 1 } }' > HackPrank/Assets.xcassets/Contents.json

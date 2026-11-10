@@ -9,6 +9,45 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Prepare project
+        run: |
+          mkdir -p HackPrank/Assets.xcassets/AppIcon.appiconset HackPrank/Assets.xcassets/Logo.imageset
+          mv ContentView.swift HackPrankApp.swift HackPrank/
+          cp icon.png HackPrank/Assets.xcassets/AppIcon.appiconset/icon.png
+          cp logo.png HackPrank/Assets.xcassets/Logo.imageset/logo.png
+          echo '{ "info" : { "author" : "xcode", "version" : 1 } }' > HackPrank/Assets.xcassets/Contents.json
+          cat > HackPrank/Assets.xcassets/AppIcon.appiconset/Contents.json <<'EOF'
+          { "images" : [ { "filename" : "icon.png", "idiom" : "universal", "platform" : "ios", "size" : "1024x1024" } ], "info" : { "author" : "xcode", "version" : 1 } }
+          EOF
+          cat > HackPrank/Assets.xcassets/Logo.imageset/Contents.json <<'EOF'
+          { "images" : [ { "filename" : "logo.png", "idiom" : "universal" } ], "info" : { "author" : "xcode", "version" : 1 } }
+          EOF
+          cat > project.yml <<'EOF'
+          name: den
+          options:
+            bundleIdPrefix: com.sakaci
+          targets:
+            den:
+              type: application
+              platform: iOS
+              deploymentTarget: "15.0"
+              sources: [HackPrank]
+              info:
+                path: HackPrank/Info.plist
+                properties:
+                  CFBundleDisplayName: den
+                  UILaunchScreen: {}
+                  UIStatusBarHidden: true
+                  UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+              settings:
+                base:
+                  PRODUCT_BUNDLE_IDENTIFIER: com.sakaci.den
+                  MARKETING_VERSION: "2.4.1"
+                  CURRENT_PROJECT_VERSION: "1"
+                  SWIFT_VERSION: "5.0"
+                  ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+          EOF
+
       - name: Install XcodeGen
         run: brew install xcodegen
 
